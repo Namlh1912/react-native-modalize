@@ -883,20 +883,20 @@ const ModalizeBase = (
   }, [adjustToContentHeight, modalHeight, screenHeight]);
 
   React.useEffect(() => {
-    const subscriptions =[
-      Keyboard.addListener('keyboardDidShow', handleKeyboardShow),
-      Keyboard.addListener('keyboardDidHide', handleKeyboardHide)
-    ];
+    const showSubscription = Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', handleKeyboardHide);
     return (): void => {
       backButtonListenerRef.current?.remove();
-      if (Keyboard.removeListener) {
-        Keyboard.removeListener('keyboardDidShow', handleKeyboardShow);
-        Keyboard.removeListener('keyboardDidHide', handleKeyboardHide);
-      } else {
-        for (const subscription of subscriptions) {
-          subscription.remove();
-        }
-      }
+      showSubscription.remove();
+      hideSubscription.remove();
+      // if (Keyboard.removeListener) {
+      //   Keyboard.removeListener('keyboardDidShow', handleKeyboardShow);
+      //   Keyboard.removeListener('keyboardDidHide', handleKeyboardHide);
+      // } else {
+      //   for (const subscription of subscriptions) {
+      //     subscription.remove();
+      //   }
+      // }
     };
   }, []);
 
